@@ -49,7 +49,7 @@ jobs:
         if [ "$BUILT" = "1" ] && [ -d "$TARGET_DIR" ]; then
           jar cvf app.jar -C $TARGET_DIR .
           docker build -t vuln_spring .
-          ${GITHUB_WORKSPACE}/sl analyze --wait --app $(basename $(pwd)) --tag branch=${{ github.head_ref || steps.extract_branch.outputs.branch }} --vcs-prefix-correction "*=src/main/java" --java --container vuln_spring --cpg app.jar
+          ${GITHUB_WORKSPACE}/sl analyze --wait --app $(basename $(pwd)) --tag branch=${{ github.head_ref || steps.extract_branch.outputs.branch }} --vcs-prefix-correction "*=src/main/java" --java --container vuln_spring app.jar
           # To run in comparison mode use the below instead of --branch
           # --source tag.branch=master --target tag.branch="${{ github.head_ref || steps.extract_branch.outputs.branch }}" \
           ${GITHUB_WORKSPACE}/sl check-analysis --app $(basename $(pwd)) --v2 --config shiftleft.yml \

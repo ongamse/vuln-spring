@@ -88,4 +88,4 @@ jobs:
     - uses: actions/upload-artifact@v3
       with:
         name: ngsast-bestfix-report
-        path: $RUNNER_TEMP/ngsast-bestfix-report.html     
+        path: ${{ env.RUNNER_TEMP }}/ngsast-bestfix-report.html     

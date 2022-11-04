@@ -84,3 +84,4 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SL_CPG_OPTS: "-J-Xms2g -J-Xmx7g"
         SHIFTLEFT_JAVA_OPTS: "-Xms2g -Xmx7g"
+        TERM: "dumb"

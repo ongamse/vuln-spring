@@ -61,7 +61,7 @@ jobs:
           # Run best fix script
           git clone https://github.com/ShiftLeftSecurity/field-integrations.git
           pip3 install -r field-integrations/shiftleft-utils/requirements.txt
-          python3 field-integrations/shiftleft-utils/bestfix.py -a $(basename $(pwd))
+          python3 field-integrations/shiftleft-utils/bestfix.py -a $(basename $(pwd)) -o ngsast-bestfix-report.html
           #####
           
           if [ "$GITHUB_EVENT_NAME" = "pull_request" ]; then
@@ -85,3 +85,7 @@ jobs:
         SL_CPG_OPTS: "-J-Xms2g -J-Xmx7g"
         SHIFTLEFT_JAVA_OPTS: "-Xms2g -Xmx7g"
         COLUMNS: "250"
+    - uses: actions/upload-artifact@v3
+      with:
+        name: ngsast-bestfix-report
+        path: ngsast-bestfix-report.html     

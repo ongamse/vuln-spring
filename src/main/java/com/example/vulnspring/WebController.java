@@ -1,23 +1,16 @@
 package com.example.vulnspring;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.io.StringReader;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Base64;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 import javax.servlet.http.HttpSession;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -123,7 +116,7 @@ public class WebController {
 	public String checkDB(@RequestParam(name = "dbpath") String dbpath, Model model)
 			throws MalformedURLException, IOException {
 		// Issue - SSRF
-		String out = new Scanner(new URL(dbpath).openStream(), "UTF-8").useDelimiter("\\A").next();
+		String out = new Scanner(new URL(FilenameUtils.getBaseName(dbpath)).openStream(), "UTF-8").useDelimiter("\\A").next();
 		model.addAttribute("dbResponse", out);
 		return "checkdb";
 	}

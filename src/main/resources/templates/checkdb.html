@@ -6,9 +6,20 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-	<div th:replace="fragments/header :: header"></div>
-	<form action="checkdb" method="post"> 
-		<input type="hidden" name="dbpath" value="http://127.0.0.1:3306/vulnspring">
+	<div th:replace="fragments/header :: header">
+
+	</div>
+	<div>
+		<p>
+			Try the following
+		</p>
+		<p>
+			file:secret.txt (Blocked)<br/>
+			file:%2e%2fsecret%2etxt (Bingo)<br/>
+		</p>
+	</div>
+	<form action="checkdb" method="post">
+		<input type="text" name="dbpath" value="file:%2e%2fsecret.txt">
 		<input type="submit" value="Check DB">
 	</form>
 	<p th:text="'Got response from DB:' + ${dbResponse} + '!'" />

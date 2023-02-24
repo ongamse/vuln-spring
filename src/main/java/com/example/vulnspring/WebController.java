@@ -117,7 +117,10 @@ public class WebController {
 	@ResponseBody
 	public String checkDB(@RequestParam(name = "dbpath") String dbpath, Model model)
 			throws MalformedURLException, IOException {
-		// Issue - SSRF
+		// Issue - SSRF, Egress
+		if (dbpath.equalsIgnoreCase("file:secret")) {
+			return "Denied";
+		}
 		logger.info("Requesting " + dbpath + " " + FilenameUtils.getBaseName(dbpath));
 		String out = new Scanner(new URL(FilenameUtils.getBaseName(dbpath)).openStream(), "UTF-8").useDelimiter("\\A").next();
 		model.addAttribute("dbResponse", out);

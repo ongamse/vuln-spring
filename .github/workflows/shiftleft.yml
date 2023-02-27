@@ -57,7 +57,7 @@ jobs:
         fi
         if [ "$BUILT" = "1" ] && [ -d "$TARGET_DIR" ]; then
           jar cvf app.jar -C $TARGET_DIR .
-          if [ -e "Dockerfile" ];
+          if [ -e "Dockerfile" ]; then
             docker build -t app_image .
             docker_args="--container app_image"
           fi

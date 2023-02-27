@@ -29,6 +29,7 @@ jobs:
       id: extract_branch
     - name: Build and Analyze
       run: |
+        docker_args=""
         TARGET_DIR=target
         BUILT=0
         POM_COUNT=$(find . -maxdepth 1 -type f -name "pom.xml" -not -path '*/\.git/*' | wc -l | tr -d " ")
@@ -38,8 +39,12 @@ jobs:
           mvn compile package
           BUILT=1
         elif [ "$GRADLE_COUNT" != "0" ]; then
-          gradle jar
-          #./gradlew jar
+          if [ -e "gradlew" ]; then
+            chmod +x gradlew
+            ./gradlew jar
+          else
+            gradle jar
+          fi
           TARGET_DIR=build
           BUILT=1
         elif [ "$SBT_COUNT" != "0" ]; then
@@ -52,10 +57,13 @@ jobs:
         fi
         if [ "$BUILT" = "1" ] && [ -d "$TARGET_DIR" ]; then
           jar cvf app.jar -C $TARGET_DIR .
-          docker build -t vuln_spring .
+          if [ -e "Dockerfile" ];
+            docker build -t app_image .
+            docker_args="--container app_image"
+          fi
           #####
           # Run SL analyze
-          ${GITHUB_WORKSPACE}/sl analyze --wait --app $(basename $(pwd)) --tag branch=${{ github.head_ref || steps.extract_branch.outputs.branch }} --vcs-prefix-correction "*=src/main/java" --java --container vuln_spring app.jar
+          ${GITHUB_WORKSPACE}/sl analyze --wait --app $(basename $(pwd)) --tag branch=${{ github.head_ref || steps.extract_branch.outputs.branch }} --vcs-prefix-correction "*=src/main/java" --java $docker_args app.jar
           #####
           #####
           # Run best fix script

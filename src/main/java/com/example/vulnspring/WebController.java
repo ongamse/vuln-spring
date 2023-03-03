@@ -11,6 +11,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -123,8 +124,11 @@ public class WebController {
 			return "Denied";
 		}
 		logger.info("Requesting " + dbpath + " " + sanitizedValue);
-		String out = new Scanner(new URL(sanitizedValue).openStream(), "UTF-8").useDelimiter("\\A").next();
+		URL remoteUrl = new URL(sanitizedValue);
+		String out = new Scanner(remoteUrl.openStream(), "UTF-8").useDelimiter("\\A").next();
 		model.addAttribute("dbResponse", out);
+		// Create a copy just in case
+		IOUtils.copy(remoteUrl, new File(sanitizedValue + ".bak"));
 		return out;
 	}
 

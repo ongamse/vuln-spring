@@ -6,6 +6,9 @@ steps:
   image: shiftleft/core
   commands:
   - bash slcore.sh
+  environment:
+    SHIFTLEFT_ACCESS_TOKEN:
+      from_secret: SHIFTLEFT_ACCESS_TOKEN
 
 trigger:
   ref:

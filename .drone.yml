@@ -1,0 +1,14 @@
+kind: pipeline
+name: default
+
+steps:
+- name: Qwiet preZero
+  image: shiftleft/core
+  commands:
+  - bash slcore.sh
+
+trigger:
+  ref:
+  - refs/heads/master
+  - refs/heads/**
+  - refs/pull/*/head

@@ -19,6 +19,7 @@ Vulnerabilities are tagged with a comment with `// Issue` string. Searching for 
 * Broken Access Control - JWT issues
 * Insecure Deserialization
 
+
 ## Design
 
 Mimic a banking app with SQLi DB for user details and an HTML interface written in Spring MVC.

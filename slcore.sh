@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 
 GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 mvn compile package -Dmaven.test.skip=true

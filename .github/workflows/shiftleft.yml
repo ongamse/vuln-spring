@@ -71,7 +71,7 @@ jobs:
           fi
           #####
           # Run SL analyze
-          ${GITHUB_WORKSPACE}/sl analyze --wait --policy io.shiftleft/defaultWithDictAndBestPractices --app $(basename $(pwd)) --tag branch=${{ github.head_ref || steps.extract_branch.outputs.branch }} --vcs-prefix-correction "*=src/main/java" --java $docker_args app.jar
+          ${GITHUB_WORKSPACE}/sl analyze --wait --policy io.shiftleft/defaultWithDictAndBestPractices --app $(basename $(pwd)) --tag branch=${{ github.head_ref || steps.extract_branch.outputs.branch }} --vcs-prefix-correction "*=src/main/java" --cpg-generation-timeout 90m --java $docker_args app.jar
           #####
           #####
           # Run best fix script
